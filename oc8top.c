@@ -21,18 +21,18 @@ static int ev_handler(struct mg_connection *conn,
     case MG_AUTH:
 	return MG_MORE;
     case MG_REQUEST:
-    //REQUISIÇÕES DE PÁGINA
-    //Toda requisição, seja digitando URL,
-    //ou uma chamada css ou javascript
-    //ativa esta opção
+    //PAGE REQUEST
+    //EVERY REQUEST, EITHER BY TYPING URL
+    //OR CALL CSS OR JAVASCRIPT
+    //ENABLE THIS FUNCTION
     //printf("[%d] %s\n", strlen(conn->uri), conn->uri);
 	
-	//caso a url seja os nomes das funcoes, o mongoose retorna o html referente a elas
+	//IF THE URL IS THE NAME OF THE FUNCTIONS, THE MOONGOSE RETURNS THE HTML REFERS TO THEM
 	if (strcmp (conn->uri, "/dinamic_versaoso") == 0){
 
 		mg_send_header(conn, "Content-Type", "text/html");
 
-		//acrescenta as informações do S.O.
+		//ADDS INFORMATIONS O.S
 		versaoso(buffer, sizeof(buffer));
 		
 		mg_printf_data(conn, buffer);
@@ -44,13 +44,13 @@ static int ev_handler(struct mg_connection *conn,
 
 		mg_send_header(conn, "Content-Type", "text/html");
 
-		//acrescenta as informações sobre o Uso da CPU
+		//ADDS INFORMATIONS ABOUT THE CṔU USAGE
 		cpu_resultado(buffer, sizeof(buffer));
 
-		//acrescenta as informações sobre o Load Average
+		//ADDS INFORMATIONS ABOUT THE LOAD AVERAGE
 		load_average(buffer, sizeof(buffer));
 
-		//acrescenta as informações da quantidade de processos sendo executados.
+		//ADDS INFORMATIONS ON THE NUMBER OS PROCESSES RUNNING
 		numprocessos(buffer, sizeof(buffer));
 		
 		mg_printf_data(conn, buffer);
@@ -61,7 +61,7 @@ static int ev_handler(struct mg_connection *conn,
 
 		mg_send_header(conn, "Content-Type", "text/html");
 
-		//acrescenta as informações da memória RAM.
+		//ADDS INFORMATIONS FROM MEMORY RAM 
 		infomemoria(buffer, sizeof(buffer));
 
 		mg_printf_data(conn, buffer);
@@ -72,14 +72,14 @@ static int ev_handler(struct mg_connection *conn,
 
 		mg_send_header(conn, "Content-Type", "text/html");
 
-		//acrescenta as informações da bateria.
+		//ADDS BATTERY INFORMATION
 		bateria(buffer, sizeof(buffer));
 
 		mg_printf_data(conn, buffer);
 		return MG_TRUE;
 	}
 
-	//se nao tiver nada na url ele executa esse texto, caso contrario execut a a url
+	//IF YOU HAVE NOTHING IN THE URL IT PEFORMS THIS TEXT, OTHERWISE EXECUTE THE URL
 	if(strlen(conn->uri)<=1){
 		mg_send_header(conn, "Content-Type", "text/html");
 

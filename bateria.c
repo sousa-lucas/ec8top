@@ -8,21 +8,21 @@
  
 
 int bateria(char *b, size_t s){
-    //buffer que conterá o texto
+    //buffer that contains text
     char buffer[TAMBUFF];
     buffer[0] = '\x0';
     
-    //leitor de arquivos
+    //file reader
     FILE *arquivo;
     
     char *linha;
     char buff[TAMBUFF];
     buff[0] = '\x0';
     
-    //valor da porcentagem da bateria
+    //battery percentage value
     float valor;
     
-    //setando o nivel total de bateria
+    //by setting the total battery leveli
     arquivo = fopen("/sys/class/power_supply/BAT0/charge_full", "r");
     if (arquivo == 0)
       arquivo = fopen("/sys/class/power_supply/BAT0/energy_full", "r");
@@ -31,9 +31,9 @@ int bateria(char *b, size_t s){
       strncat(b, "<br><p>Dispositivo Desktop</p>", s); 
       return -1;
     }
-      //O nível da bateria não pôde ser lido
+      //The battery level could not be read
       
-    //atribuindo o total da bateria a um float
+    //assigning the total battery to a float
     while (!feof(arquivo)){
 	linha = fgets(buff, TAMBUFF, arquivo);
 	if (linha != 0){
@@ -42,7 +42,7 @@ int bateria(char *b, size_t s){
     }
     fclose(arquivo);
 
-    //setando o nivel atual de bateria
+    //by setting the current battery level
     arquivo = fopen("/sys/class/power_supply/BAT0/charge_now", "r");
     if (arquivo == 0)
       arquivo = fopen("/sys/class/power_supply/BAT0/energy_now", "r");
@@ -51,24 +51,24 @@ int bateria(char *b, size_t s){
       strncat(b, "O arquivo _now nao pode ser lido", s); 
       return -1;
     }
-      //O nível da bateria não pôde ser lido    
+      //The battery level could not be read    
       
-    //atribuindo a carga total ao float
+    //assigning the total charge to float
     while (!feof(arquivo)){
 	linha = fgets(buff, TAMBUFF, arquivo);
 	if (linha != 0){
-	    //calculando a porcentagem
+	    //calculating the percentage
 	    valor = atoi(linha)/valor*100;
 	}
     }
     fclose(arquivo);
     
-    //coloca as informacoes no buffer da funcao
+    //put the details in the buffer function
     snprintf(buffer,TAMBUFF, "<p><b>Battery:</b> %.0f%%</p>", valor);
     
-    //coloca as informacoes no buffer do projeto
+    //put the details in the project buffer
     strncat(b, buffer, s);
 
-    //retorna sucesso
+    //returns success
     return 1;
 }
